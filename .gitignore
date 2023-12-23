@@ -1,0 +1,51 @@
+# Node.js
+node_modules/
+
+# Build files
+build/
+dist/
+
+# Dependency directories
+libs/
+
+# Three.js specific files
+*.log
+*.bak
+*.BAK
+.DS_Store
+
+# Cash Folder
+.parcel-cache/
+
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Compiled shaders
+*.glsl
+
+# Compiled JavaScript
+
+*.js.map
+
+# Logs
+logs/
+*.log.*
+npm-debug.log*
+
+# OS-specific files
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.sublime-workspace
+*.swp
