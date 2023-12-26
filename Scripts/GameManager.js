@@ -1,19 +1,19 @@
-export const GameState = 
-{
-    GamePlay: 0,
-    LevelCompelet: 1,
-    LevelFail: 2
-}
+export class GameManager {
+    static GameState = {
+        GamePlay: 0,
+        LevelCompelet: 1,
+        LevelFail: 2
+    };
 
-export var gameState = GameState.GamePlay;
+    static gameState = GameManager.GameState.GamePlay;
 
-export const LevelFail = () =>
-{
-    console.log("You Lose");
-    gameState = GameState.LevelFail;
-}
-export const LevelCompelet = () =>
-{
-    console.log("You Win");
-    gameState = GameState.LevelCompelet;
+    static LevelFail = () => {
+        console.log("You Lose");
+        GameManager.gameState = GameManager.GameState.LevelFail;
+    };
+
+    static LevelCompelet = () => {
+        console.log("You Win");
+        GameManager.gameState = GameManager.GameState.LevelCompelet;
+    };
 }

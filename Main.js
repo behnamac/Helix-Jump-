@@ -1,73 +1,48 @@
 import * as THREE from "three";
 
-import { CreateCamera, OrbitRotaiotn } from "./Scripts/Camera.js";
-import { CreateRenderer } from "./Scripts/Renderer.js";
-import { CreateDirlLight } from "./Scripts/Lights.js";
-import { CreateParticle } from "./Scripts/Particles.js";
-import { GridHelper } from "./Scripts/grid.js";
+import { Camera } from "./Scripts/Camera.js";
+import { Renderer } from "./Scripts/Renderer.js";
+import { Lights } from "./Scripts/Lights.js";
+import { Particles } from "./Scripts/Particles.js";
 
-import { SetInput, isMouseLeftPressed, MouseDeltaX } from "./Scripts/Input.js";
-import {
-  createRotatingObject,
-  createCylinder,
-  createSphere,
-} from "./Scripts/Objects.js";
-import {
-  GenaratePlatform,
-  GenaratePlatformBody,
-} from "./Scripts/PlatformGenarator.js";
-import { LoadGravity, SphereCollider } from "./Scripts/Physic.js";
-import { GLTFLoader } from "./node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-import {
-  GameState,
-  LevelCompelet,
-  LevelFail,
-  gameState,
-} from "./Scripts/GameManager.js";
+import { Input } from "./Scripts/Input.js";
+import { Objects } from "./Scripts/Objects.js";
+import { PlatformGenarator } from "./Scripts/PlatformGenarator.js";
+import { Physic } from "./Scripts/Physic.js";
+import { GameManager } from "./Scripts/GameManager.js";
 
 // Load a scene
 const scene = new THREE.Scene();
 
 // Load a camera
-var camera = CreateCamera();
+var camera = Camera.CreateCamera();
 
 // Create a renderer
-var renderer = CreateRenderer();
+var renderer = Renderer.CreateRenderer();
 
 //Create Orbit camera Controller
 //var orbit = OrbitRotaiotn(camera, renderer);
 
-//Add Grid Plane
-var grid = GridHelper;
-scene.add(grid);
-
-// Load GUI
-const gui = new dat.GUI();
-
 // Load a light
-var directionalLight = CreateDirlLight();
+var directionalLight = Lights.CreateDirlLight();
 scene.add(directionalLight);
 //#region  objects
 
-var world = LoadGravity();
-
-// Creat Rotating Object
-var rotatingObject = createRotatingObject();
-scene.add(rotatingObject);
+var world = Physic.LoadGravity();
 
 //Create Cylinder
 var cylinderRadius = 1;
 var cylinderHeight = 100;
-var cylinder = createCylinder(cylinderRadius, cylinderHeight);
+var cylinder = Objects.createCylinder(cylinderRadius, cylinderHeight);
 scene.add(cylinder);
 
 //Create Platforms
-var platforms = GenaratePlatform(scene);
-var plaRigidBodys = GenaratePlatformBody(platforms, world);
+var platforms = PlatformGenarator.GenaratePlatform(scene);
+var plaRigidBodys = PlatformGenarator.GenaratePlatformBody(platforms, world);
 
 // Create a Ball
-var sphere = createSphere(0.2);
-var sphereRigidbody = SphereCollider(0.2, sphere.position, 5);
+var sphere = Objects.createSphere(0.2);
+var sphereRigidbody = Physic.SphereCollider(0.2, sphere.position, 5);
 sphereRigidbody.velocity;
 sphereRigidbody.name = "Ball";
 world.addBody(sphereRigidbody);
@@ -80,9 +55,13 @@ sphereRigidbody.addEventListener("collide", function (event) {
   var bodyB = contact.bj;
 
   if (bodyB.name == "GoodPlatform") {
-    if (gameState == GameState.GamePlay) sphereRigidbody.velocity.set(0, 6, 0);
-  } else if (bodyB.name == "BadPlatform") LevelFail();
-  else if (bodyB.name == "FinishPlatform") LevelCompelet();
+    if (GameManager.gameState == GameManager.GameState.GamePlay) 
+      sphereRigidbody.velocity.set(0, 6, 0);
+  } 
+  else if (bodyB.name == "BadPlatform") 
+    GameManager.LevelFail();
+  else if (bodyB.name == "FinishPlatform") 
+    GameManager.LevelCompelet();
 });
 
 //#endregion
@@ -90,11 +69,11 @@ sphereRigidbody.addEventListener("collide", function (event) {
 // Create a particle
 
 for (let index = 0; index < 200; index++) {
-  const particle = CreateParticle();
+  const particle = Particles.CreateParticle();
   scene.add(particle);
 }
 // Set Events
-SetInput();
+Input.SetInput();
 
 // Handle window resize
 window.addEventListener("resize", () => {
@@ -113,9 +92,9 @@ var deltaAngle = 0;
 function animate() {
   requestAnimationFrame(animate);
 
-  if (gameState == GameState.GamePlay) {
+  if (GameManager.gameState == GameManager.GameState.GamePlay) {
     //Set Position Ball
-    deltaAngle += MouseDeltaX;
+    deltaAngle += Input.MouseDeltaX;
     const angle = deltaAngle * 0.01;
     sphereRigidbody.position.x = 2.5 * Math.cos(angle);
     sphereRigidbody.position.z = 2.5 * Math.sin(angle);
@@ -157,10 +136,4 @@ function animate() {
 animate();
 //Update(renderer, scene, camera);
 
-//#endregion
-
-//#region  GUI Helper
-function SetGUI(component, parameter, min, max) {
-  gui.add(component, parameter, min, max);
-}
 //#endregion

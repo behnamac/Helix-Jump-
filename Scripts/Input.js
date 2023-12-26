@@ -1,63 +1,65 @@
-import * as THREE from "three";
-var mouseX = 0;
-export var isMouseLeftPressed = false;
-export var MouseDeltaX = 0;
+export class Input {
+  static mouseX = 0;
+  static isMouseLeftPressed = false;
+  static MouseDeltaX = 0;
 
-let mouseTimer;
-const delay = 10;
-export const SetInput = (objectRotate) => {
-  document.addEventListener("mousedown", handleMouseDown);
-  document.addEventListener("mouseup", handleMouseUp);
+  static mouseTimer = 0;
+  static delay = 10;
 
-  document.addEventListener('mousemove', function(event){
-      clearTimeout(mouseTimer);
-      handleMouseMove(event);
-      mouseTimer = setTimeout(function(){
-          MouseDeltaX = 0;
-      }, delay);
-  }, false);
+  static SetInput = () => {
+    document.addEventListener("mousedown", Input.handleMouseDown);
+    document.addEventListener("mouseup", Input.handleMouseUp);
 
-  document.addEventListener("touchmove", handleTouchMove, { passive: false });
-};
+    document.addEventListener('mousemove', function (event) {
+      clearTimeout(Input.mouseTimer);
+      Input.handleMouseMove(event);
+      Input.mouseTimer = setTimeout(function () {
+        Input.MouseDeltaX = 0;
+      }, Input.delay);
+    }, false);
 
-function handleMouseDown(event) {
-  // Check Click Down
-  if (event.button === 0) {
-    isMouseLeftPressed = true;
-    mouseX = event.clientX;
+    document.addEventListener("touchmove", Input.handleTouchMove, { passive: false });
+  };
+
+  static handleMouseDown(event) {
+    // Check Click Down
+    if (event.button === 0) {
+      Input.isMouseLeftPressed = true;
+      Input.mouseX = event.clientX;
+    }
   }
-}
 
-function handleMouseUp(event) {
-  // Check Click Up
-  if (event.button === 0) {
-    isMouseLeftPressed = false;
+  static handleMouseUp(event) {
+    // Check Click Up
+    if (event.button === 0) {
+      Input.isMouseLeftPressed = false;
+    }
   }
-}
 
-export const handleMouseMove = (event) => {
-  if (!isMouseLeftPressed) return;
+  static handleMouseMove = (event) => {
+    if (!Input.isMouseLeftPressed) return;
 
-  // Calculate Mouse Change
-  var deltaX = event.clientX - mouseX;
+    // Calculate Mouse Change
+    var deltaX = event.clientX - Input.mouseX;
 
-  MouseDeltaX = deltaX;
-  // Update Mouse Position
-  mouseX = event.clientX;
-};
+    Input.MouseDeltaX = deltaX;
+    // Update Mouse Position
+    Input.mouseX = event.clientX;
+  };
 
-function handleTouchMove(event) {
-  event.preventDefault();
+  static handleTouchMove(event) {
+    event.preventDefault();
 
-  // Calculate Change Touch
-  var touch = event.touches[0];
-  var deltaX = touch.clientX - mouseX;
+    // Calculate Change Touch
+    var touch = event.touches[0];
+    var deltaX = touch.clientX - Input.mouseX;
 
-  //var speed = 0.01;
-  // Set Rotation
-  //object.rotation.y += deltaX * speed;
-  MouseDeltaX = deltaX;
+    // var speed = 0.01;
+    // Set Rotation
+    // object.rotation.y += deltaX * speed;
+    Input.MouseDeltaX = deltaX;
 
-  // Update Touch Position
-  mouseX = touch.clientX;
+    // Update Touch Position
+    Input.mouseX = touch.clientX;
+  }
 }
