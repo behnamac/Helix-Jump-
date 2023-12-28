@@ -1,27 +1,3 @@
-//import { MyLevelComplete } from "/UIManager.js";
-
-export class GameManager {
-  static GameState = {
-    GamePlay: 0,
-    LevelCompelet: 1,
-    LevelFail: 2,
-  };
-
-  static gameState = GameManager.GameState.GamePlay;
-
-  static LevelFail = () => {
-    console.log("You Lose");
-    GameManager.gameState = GameManager.GameState.LevelFail;
-    onlevelFailed();
-  };
-
-  static LevelCompelet = () => {
-    console.log("You Win");
-    GameManager.gameState = GameManager.GameState.LevelCompelet;
-    onLevelComplete();
-  };
-}
-
 var nextLevelButton;
 var resetLevelButton;
 var winText;
@@ -58,7 +34,7 @@ function onResetLevelButtonClick() {
   location.reload();
 }
 
-export const onLevelComplete = () => {
+export const MyLevelComplete = () => {
   nextLevelButton.style.display = "block";
   winText.style.display = "block";
 };

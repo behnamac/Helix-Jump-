@@ -7,7 +7,6 @@ dist/
 
 # Dependency directories
 libs/
-#e
 
 # Three.js specific files
 *.log
