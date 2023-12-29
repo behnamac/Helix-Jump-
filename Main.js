@@ -10,6 +10,8 @@ import { Objects } from "./Scripts/Objects.js";
 import { PlatformGenarator } from "./Scripts/PlatformGenarator.js";
 import { Physic } from "./Scripts/Physic.js";
 import { GameManager } from "./Scripts/GameManager.js";
+import { AddScore } from "./Scripts/UIManager.js";
+//import { TrailRenderer } from "./Scripts/TrailRenderer.js";
 
 // Load a scene
 const scene = new THREE.Scene();
@@ -43,11 +45,14 @@ var plaRigidBodys = PlatformGenarator.GenaratePlatformBody(platforms, world);
 // Create a Ball
 var sphere = Objects.createSphere(0.2);
 var sphereRigidbody = Physic.SphereCollider(0.2, sphere.position, 5);
-sphereRigidbody.velocity;
 sphereRigidbody.name = "Ball";
 world.addBody(sphereRigidbody);
 scene.add(sphere);
 
+//Create Ball Trail
+//var trail = new TrailRenderer(scene);
+
+var collidePosition = 0;
 // On Collision Enter
 sphereRigidbody.addEventListener("collide", function (event) {
   var contact = event.contact;
@@ -56,12 +61,28 @@ sphereRigidbody.addEventListener("collide", function (event) {
 
   if (bodyB.name == "GoodPlatform") {
     if (GameManager.gameState == GameManager.GameState.GamePlay) 
+    {
+      if(collidePosition > bodyA.position.y + 1)
+      {
+        AddScore();
+      }
+      collidePosition = bodyA.position.y;
       sphereRigidbody.velocity.set(0, 6, 0);
+    }
   } 
   else if (bodyB.name == "BadPlatform") 
     GameManager.LevelFail();
   else if (bodyB.name == "FinishPlatform") 
     GameManager.LevelCompelet();
+});
+sphereRigidbody.addEventListener("trigger", function (event) {
+  var contact = event.contact;
+  var bodyA = contact.bi;
+  var bodyB = contact.bj;
+
+  if (bodyB.name == "Floor") {
+    console.log(bodyB.name);
+  } 
 });
 
 //#endregion
@@ -121,6 +142,8 @@ function animate() {
   sphereRigidbody.velocity.x = 0;
   sphereRigidbody.velocity.z = 0;
 
+  //trail.updateTrail(sphereRigidbody);
+
   // cubeGeometry.position.copy(createGreenBoxRigid.position);
   // cubeGeometry.quaternion.copy(createGreenBoxRigid.quaternion);
 
@@ -128,7 +151,7 @@ function animate() {
     platforms[i].position.copy(plaRigidBodys[i].position);
     platforms[i].quaternion.copy(plaRigidBodys[i].quaternion);
   }
-
+  
   renderer.render(scene, camera);
 }
 

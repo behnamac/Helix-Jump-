@@ -2,6 +2,8 @@ var nextLevelButton;
 var resetLevelButton;
 var winText;
 var loseText;
+var scoreText;
+var score = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
   //Set Win Button
@@ -25,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
   //Set Lose Text
   loseText = document.getElementById("Lose_Title");
   loseText.style.display = "none";
+
+  //Set Score Text
+  scoreText = document.getElementById("Score_Text");
 });
 
 function onNextLevelButtonClick() {
@@ -34,11 +39,20 @@ function onResetLevelButtonClick() {
   location.reload();
 }
 
-export const MyLevelComplete = () => {
+export const OnLevelCompelet = () => {
   nextLevelButton.style.display = "block";
   winText.style.display = "block";
 };
-export const onlevelFailed = () => {
+export const OnLevelFail = () => {
   resetLevelButton.style.display = "block";
   loseText.style.display = "block";
+};
+export const AddScore = () => {
+  score++;
+  scoreText.textContent = "Score : " + score.toString();
+
+  scoreText.style.fontSize = "30px";
+  scoreText.style.position = "absolute";
+  scoreText.style.top = "10px";
+  scoreText.style.right = "10px";
 };

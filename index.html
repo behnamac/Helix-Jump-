@@ -70,6 +70,22 @@
             cursor: pointer;
             font-size: 100px;
         }
+        #Score_Text {
+            position: absolute;
+            top: -90px;
+            right: -90px;
+            z-index: 1;
+            color: white;
+        }
+
+        #Score_Text div {
+            padding: 100px;
+            background-color: #ffffff00;
+            color: rgb(255, 255, 255);
+            border: none;
+            cursor: pointer;
+            font-size: 30px;
+        }
     </style>
 </head>
 <body>
@@ -89,11 +105,15 @@
             <label for="You Lose">You Lose</label>
         </div>
     </div>
+    <div id="Score_Text">
+        <div>
+            <label for="Score">Score : 0</label>
+        </div>
+    </div>
 
     <script src="./Main.js" type="module"></script>
     <script src="./Scripts/Scene.js" type="module"></script>
     <script src="./Scripts/Score.js" type="module"></script>
-    <script src="./UIManager.js" type="module"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/noisejs@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>

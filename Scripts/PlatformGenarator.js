@@ -7,13 +7,12 @@ export class PlatformGenarator
     static numberPlatform = 8;
     static numberFloor = 10;
     
+    static cylinderRadius = 1;
+    static cylinderHeight = 10;
+
     static GenaratePlatform = (scene) =>
     {
-    
-        var cylinderRadius = 1;
-        var cylinderHeight = 10;
-    
-        var platforms = []
+        var platforms = [];
         for (let i = 0; i < this.numberFloor; i++) 
         {
             var randomNumberRemove = Math.floor((Math.random() * 3) + 1);
@@ -45,9 +44,9 @@ export class PlatformGenarator
     
                 // Calculate Position
                 var angle = (j / this.numberPlatform) * Math.PI * 2;
-                var platformX = cylinderRadius * Math.cos(angle);
-                var platformY = cylinderHeight / 2 - (3 * (i + 1));
-                var platformZ = cylinderRadius * Math.sin(angle);
+                var platformX = this.cylinderRadius * Math.cos(angle);
+                var platformY = this.cylinderHeight / 2 - (3 * (i + 1));
+                var platformZ = this.cylinderRadius * Math.sin(angle);
     
                 platform.position.set(platformX, platformY, platformZ);
     
