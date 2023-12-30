@@ -10,15 +10,21 @@ export class Input {
     document.addEventListener("mousedown", Input.handleMouseDown);
     document.addEventListener("mouseup", Input.handleMouseUp);
 
-    document.addEventListener('mousemove', function (event) {
-      clearTimeout(Input.mouseTimer);
-      Input.handleMouseMove(event);
-      Input.mouseTimer = setTimeout(function () {
-        Input.MouseDeltaX = 0;
-      }, Input.delay);
-    }, false);
+    document.addEventListener(
+      "mousemove",
+      function (event) {
+        clearTimeout(Input.mouseTimer);
+        Input.handleMouseMove(event);
+        Input.mouseTimer = setTimeout(function () {
+          Input.MouseDeltaX = 0;
+        }, Input.delay);
+      },
+      false
+    );
 
-    document.addEventListener("touchmove", Input.handleTouchMove, { passive: false });
+    document.addEventListener("touchmove", Input.handleTouchMove, {
+      passive: false,
+    });
   };
 
   static handleMouseDown(event) {

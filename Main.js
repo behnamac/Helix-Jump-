@@ -8,7 +8,7 @@ import { Particles } from "./Scripts/Particles.js";
 import { Input } from "./Scripts/Input.js";
 import { Objects } from "./Scripts/Objects.js";
 import { PlatformGenarator } from "./Scripts/PlatformGenarator.js";
-import { Physic } from "./Scripts/Physic.js";
+import { Physics } from "./Scripts/Physics.js";
 import { GameManager } from "./Scripts/GameManager.js";
 import { AddScore } from "./Scripts/UIManager.js";
 //import { TrailRenderer } from "./Scripts/TrailRenderer.js";
@@ -17,7 +17,7 @@ import { AddScore } from "./Scripts/UIManager.js";
 const scene = new THREE.Scene();
 
 // Load a camera
-var camera = Camera.CreateCamera();
+var camera = Camera.createCamera();
 
 // Create a renderer
 var renderer = Renderer.CreateRenderer();
@@ -26,11 +26,11 @@ var renderer = Renderer.CreateRenderer();
 //var orbit = OrbitRotaiotn(camera, renderer);
 
 // Load a light
-var directionalLight = Lights.CreateDirlLight();
+var directionalLight = Lights.createDirLight();
 scene.add(directionalLight);
 //#region  objects
 
-var world = Physic.LoadGravity();
+var world = Physics.loadGravity();
 
 //Create Cylinder
 var cylinderRadius = 1;
@@ -44,7 +44,7 @@ var plaRigidBodys = PlatformGenarator.GenaratePlatformBody(platforms, world);
 
 // Create a Ball
 var sphere = Objects.createSphere(0.2);
-var sphereRigidbody = Physic.SphereCollider(0.2, sphere.position, 5);
+var sphereRigidbody = Physics.createSphereCollider(0.2, sphere.position, 5);
 sphereRigidbody.name = "Ball";
 world.addBody(sphereRigidbody);
 scene.add(sphere);
@@ -60,20 +60,15 @@ sphereRigidbody.addEventListener("collide", function (event) {
   var bodyB = contact.bj;
 
   if (bodyB.name == "GoodPlatform") {
-    if (GameManager.gameState == GameManager.GameState.GamePlay) 
-    {
-      if(collidePosition > bodyA.position.y + 1)
-      {
+    if (GameManager.gameState == GameManager.GameState.GamePlay) {
+      if (collidePosition > bodyA.position.y + 1) {
         AddScore();
       }
       collidePosition = bodyA.position.y;
       sphereRigidbody.velocity.set(0, 6, 0);
     }
-  } 
-  else if (bodyB.name == "BadPlatform") 
-    GameManager.LevelFail();
-  else if (bodyB.name == "FinishPlatform") 
-    GameManager.LevelCompelet();
+  } else if (bodyB.name == "BadPlatform") GameManager.levelFail();
+  else if (bodyB.name == "FinishPlatform") GameManager.levelComplete();
 });
 sphereRigidbody.addEventListener("trigger", function (event) {
   var contact = event.contact;
@@ -82,7 +77,7 @@ sphereRigidbody.addEventListener("trigger", function (event) {
 
   if (bodyB.name == "Floor") {
     console.log(bodyB.name);
-  } 
+  }
 });
 
 //#endregion
@@ -90,7 +85,7 @@ sphereRigidbody.addEventListener("trigger", function (event) {
 // Create a particle
 
 for (let index = 0; index < 200; index++) {
-  const particle = Particles.CreateParticle();
+  const particle = Particles.createParticle();
   scene.add(particle);
 }
 // Set Events
@@ -151,7 +146,7 @@ function animate() {
     platforms[i].position.copy(plaRigidBodys[i].position);
     platforms[i].quaternion.copy(plaRigidBodys[i].quaternion);
   }
-  
+
   renderer.render(scene, camera);
 }
 

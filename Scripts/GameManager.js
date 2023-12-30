@@ -9,119 +9,90 @@ export class GameManager {
 
   static gameState = GameManager.GameState.GamePlay;
 
-  static LevelFail = () => {
+  static levelFail() {
     console.log("You Lose");
     GameManager.gameState = GameManager.GameState.LevelFail;
     OnLevelFail();
-  };
+  }
 
-  static LevelCompelet = () => {
+  static levelComplete() {
     console.log("You Win");
     GameManager.gameState = GameManager.GameState.LevelCompelet;
     OnLevelCompelet();
-  };
+  }
 }
 
 var nextLevelButton;
 var resetLevelButton;
 var winText;
 var loseText;
-
-document.addEventListener("DOMContentLoaded", function () {
-  //Set Win Button
-  nextLevelButton = document.getElementById("Next_Click_Button");
-  nextLevelButton.addEventListener("click", function () {
-    onNextLevelButtonClick();
-  });
-  nextLevelButton.style.display = "none";
-
-  //Set Lose Button
-  resetLevelButton = document.getElementById("Reset_Click_Button");
-  resetLevelButton.addEventListener("click", function () {
-    onResetLevelButtonClick();
-  });
-  resetLevelButton.style.display = "none";
-
-  //Set Win Text
-  winText = document.getElementById("Win_Title");
-  winText.style.display = "none";
-
-  //Set Lose Text
-  loseText = document.getElementById("Lose_Title");
-  loseText.style.display = "none";
-});
-
-function onNextLevelButtonClick() {
-  location.reload();
-}
-function onResetLevelButtonClick() {
-  location.reload();
-}
-
-export const onLevelComplete = () => {
-  nextLevelButton.style.display = "block";
-  winText.style.display = "block";
-};
-export const onlevelFailed = () => {
-  resetLevelButton.style.display = "block";
-  loseText.style.display = "block";
-};
-
-var nextLevelButton;
-var resetLevelButton;
-var winText;
-var loseText;
-var scoreText;
 var score = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
-  //Set Win Button
-  nextLevelButton = document.getElementById("Next_Click_Button");
-  nextLevelButton.addEventListener("click", function () {
-    onNextLevelButtonClick();
-  });
-  nextLevelButton.style.display = "none";
-
-  //Set Lose Button
-  resetLevelButton = document.getElementById("Reset_Click_Button");
-  resetLevelButton.addEventListener("click", function () {
-    onResetLevelButtonClick();
-  });
-  resetLevelButton.style.display = "none";
-
-  //Set Win Text
-  winText = document.getElementById("Win_Title");
-  winText.style.display = "none";
-
-  //Set Lose Text
-  loseText = document.getElementById("Lose_Title");
-  loseText.style.display = "none";
-
-  //Set Score Text
-  scoreText = document.getElementById("Score_Text");
+  initializeUI();
 });
+
+function initializeUI() {
+  // Initialize buttons and text elements
+  nextLevelButton = document.getElementById("Next_Click_Button");
+  resetLevelButton = document.getElementById("Reset_Click_Button");
+  winText = document.getElementById("Win_Title");
+  loseText = document.getElementById("Lose_Title");
+  scoreText = document.getElementById("Score_Text");
+
+  // Set event listeners and initial styles
+  setButtonListener(nextLevelButton, onNextLevelButtonClick);
+  setButtonListener(resetLevelButton, onResetLevelButtonClick);
+  hideElements(nextLevelButton, resetLevelButton, winText, loseText);
+
+  // Initialize score text
+  updateScoreDisplay();
+}
+
+function setButtonListener(button, onClickFunction) {
+  button.addEventListener("click", onClickFunction);
+  button.style.display = "none";
+}
+
+function hideElements(...elements) {
+  elements.forEach((element) => (element.style.display = "none"));
+}
 
 function onNextLevelButtonClick() {
   location.reload();
 }
+
 function onResetLevelButtonClick() {
   location.reload();
 }
 
 export const OnLevelCompelet = () => {
-  nextLevelButton.style.display = "block";
-  winText.style.display = "block";
+  showElements(nextLevelButton, winText);
 };
+
 export const OnLevelFail = () => {
-  resetLevelButton.style.display = "block";
-  loseText.style.display = "block";
+  showElements(resetLevelButton, loseText);
 };
+
 export const AddScore = () => {
   score++;
-  scoreText.textContent = "Score : " + score.toString();
-
-  scoreText.style.fontSize = "30px";
-  scoreText.style.position = "absolute";
-  scoreText.style.top = "10px";
-  scoreText.style.right = "10px";
+  updateScoreDisplay();
 };
+
+function updateScoreDisplay() {
+  scoreText.textContent = `Score: ${score}`;
+  styleScoreText();
+}
+
+function styleScoreText() {
+  Object.assign(scoreText.style, {
+    fontSize: "30px",
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+  });
+}
+
+function showElements(...elements) {
+  elements.forEach((element) => (element.style.display = "block"));
+}
