@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //Set Score Text
   scoreText = document.getElementById("Score_Text");
+  scoreText.style.display = "block";
 });
 
 function onNextLevelButtonClick() {
@@ -55,4 +56,5 @@ export const AddScore = () => {
   scoreText.style.position = "absolute";
   scoreText.style.top = "10px";
   scoreText.style.right = "10px";
+  scoreText.style.display = "block";
 };

@@ -11,7 +11,8 @@ import { PlatformGenarator } from "./Scripts/PlatformGenarator.js";
 import { Physics } from "./Scripts/Physics.js";
 import { GameManager } from "./Scripts/GameManager.js";
 import { AddScore } from "./Scripts/UIManager.js";
-//import { TrailRenderer } from "./Scripts/TrailRenderer.js";
+import { TrailRenderer } from "./Scripts/TrailRenderer.js";
+import { SpriteLoader } from "./Scripts/SpriteLoader.js";
 
 // Load a scene
 const scene = new THREE.Scene();
@@ -50,15 +51,39 @@ world.addBody(sphereRigidbody);
 scene.add(sphere);
 
 //Create Ball Trail
-//var trail = new TrailRenderer(scene);
+const trailHeadGeometry = [];
+trailHeadGeometry.push(
+  new THREE.Vector3(-0.2, 0.0, 0.0),
+  new THREE.Vector3(0.2, 0.0, 0.0),
+  new THREE.Vector3(0.0, 0.0, -0.2),
+  new THREE.Vector3(0.0, 0.0, 0.2)
+);
+const trail = new TrailRenderer(scene, false);
+trail.setAdvanceFrequency(100);
+const trailMaterial = TrailRenderer.createBaseMaterial();
+const trailLength = 10;
+trail.initialize(
+  trailMaterial,
+  trailLength,
+  false,
+  100,
+  trailHeadGeometry,
+  sphere
+);
+trail.activate();
+const whiteColor = new THREE.Vector4(1.0, 1.0, 1.0, 1.0); // White color
+trail.setHeadColor(whiteColor);
+trail.setTailColor(whiteColor);
 
-var collidePosition = 0;
 // On Collision Enter
+var collidePosition = 0;
 sphereRigidbody.addEventListener("collide", function (event) {
   var contact = event.contact;
   var bodyA = contact.bi;
   var bodyB = contact.bj;
 
+  var splash = SpriteLoader.CreateSpriteSplash(scene);
+  splash.position = bodyA.position;
   if (bodyB.name == "GoodPlatform") {
     if (GameManager.gameState == GameManager.GameState.GamePlay) {
       if (collidePosition > bodyA.position.y + 1) {
@@ -137,8 +162,6 @@ function animate() {
   sphereRigidbody.velocity.x = 0;
   sphereRigidbody.velocity.z = 0;
 
-  //trail.updateTrail(sphereRigidbody);
-
   // cubeGeometry.position.copy(createGreenBoxRigid.position);
   // cubeGeometry.quaternion.copy(createGreenBoxRigid.quaternion);
 
@@ -146,6 +169,7 @@ function animate() {
     platforms[i].position.copy(plaRigidBodys[i].position);
     platforms[i].quaternion.copy(plaRigidBodys[i].quaternion);
   }
+  trail.update();
 
   renderer.render(scene, camera);
 }

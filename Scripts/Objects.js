@@ -14,7 +14,7 @@ export class Objects {
       height,
       32
     );
-    const cylinderMaterial = new THREE.MeshPhongMaterial({ color: "#ffeaa7" });
+    const cylinderMaterial = new THREE.MeshBasicMaterial({ color: "#ffeaa7" });
     const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
     cylinder.castShadow = true;
     return cylinder;
