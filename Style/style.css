@@ -1,0 +1,91 @@
+body {
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100vh;
+    background-color: #222;
+    overflow: hidden;
+}
+
+.button-container {
+    position: absolute;
+    bottom: 30px;
+    z-index: 1;
+    color: white;
+}
+
+.button-container button {
+    padding: 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#Next_Click_Button button {
+    background-color: #4adb34;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#Reset_Click_Button button {
+    background-color: #db3434;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#Win_Title {
+    position: absolute;
+    top: 30px;
+    z-index: 1;
+    color: white;
+}
+
+#Win_Title div {
+    padding: 100px;
+    background-color: #ffffff00;
+    color: rgb(38, 255, 0);
+    border: none;
+    cursor: pointer;
+    font-size: 100px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}
+
+#Lose_Title {
+    position: absolute;
+    top: 30px;
+    z-index: 1;
+    color: white;
+}
+
+#Lose_Title div {
+    padding: 100px;
+    background-color: #ffffff00;
+    color: rgb(255, 0, 0);
+    border: none;
+    cursor: pointer;
+    font-size: 100px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}
+
+#Score_Text {
+    position: absolute;
+    top: -90px;
+    right: -90px;
+    z-index: 1;
+    color: white;
+}
+
+#Score_Text div {
+    padding: 100px;
+    background-color: #ffffff00;
+    color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}

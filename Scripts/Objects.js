@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+
 export class Objects {
   /**
    * Creates a cylinder mesh.
@@ -26,8 +27,11 @@ export class Objects {
    * @returns {THREE.Mesh} A sphere mesh.
    */
   static createSphere(size) {
+    const textureLoader = new THREE.TextureLoader();
+    const texturePath = 'Assets/Sprites/UI/Button Background.png';
+    const texture = textureLoader.load(texturePath);
     const sphereGeometry = new THREE.SphereGeometry(size);
-    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0f00ff });
+    const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: texture });
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.set(0, 4, 2.5);
     return sphere;

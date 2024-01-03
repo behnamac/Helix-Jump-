@@ -83,7 +83,7 @@ sphereRigidbody.addEventListener("collide", function (event) {
   var bodyB = contact.bj;
 
   var splash = SpriteLoader.CreateSpriteSplash(scene);
-  splash.position = bodyA.position;
+  splash.pos = bodyA.position;
   if (bodyB.name == "GoodPlatform") {
     if (GameManager.gameState == GameManager.GameState.GamePlay) {
       if (collidePosition > bodyA.position.y + 1) {

@@ -52,9 +52,11 @@ export const AddScore = () => {
   score++;
   scoreText.textContent = "Score : " + score.toString();
 
+  scoreText.style.display = "block";
   scoreText.style.fontSize = "30px";
   scoreText.style.position = "absolute";
   scoreText.style.top = "10px";
   scoreText.style.right = "10px";
-  scoreText.style.display = "block";
+  scoreText.style.fontFamily = "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif";
+  scoreText.style.fontWeight = "bold";
 };
